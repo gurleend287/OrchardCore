@@ -225,6 +225,13 @@ public sealed class NodeController : Controller
             await _adminMenuService.SaveAsync(adminMenu);
 
             await _notifier.SuccessAsync(H["Admin node updated successfully."]);
+
+            // check which button was clicked
+            if (Request.Form["action"] == "saveAndContinue") {
+                // redirect back to the edit page
+                return RedirectToAction(nameof(Edit), new { id = model.AdminMenuId, treeNodeId = model.AdminNodeId });
+            }
+            
             return RedirectToAction(nameof(List), new { id = model.AdminMenuId });
         }
 
